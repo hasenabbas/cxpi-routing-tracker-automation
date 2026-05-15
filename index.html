@@ -18,9 +18,9 @@ body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f5f6fa
 .summary-card .number{font-size:38px;font-weight:800;line-height:1;margin-bottom:7px}
 .summary-card .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:#888}
 .card-total{border-top:4px solid #1a237e}.card-total .number{color:#1a237e}
-.card-usp{border-top:4px solid #1565c0}.card-usp .number{color:#1565c0}
-.card-ops{border-top:4px solid #2e7d32}.card-ops .number{color:#2e7d32}
+.card-dev{border-top:4px solid #2e7d32}.card-dev .number{color:#2e7d32}
 .card-pending{border-top:4px solid #e65100}.card-pending .number{color:#e65100}
+.card-onhold{border-top:4px solid #c62828}.card-onhold .number{color:#c62828}
 .card-new{border-top:4px solid #00838f}.card-new .number{color:#00838f}
 .section{margin-bottom:24px}
 .section-header{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;padding:9px 14px;border-radius:6px;margin-bottom:10px}
@@ -52,6 +52,7 @@ body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f5f6fa
 .p-jira-spike{background:#f3e5f5;color:#6a1b9a}
 .p-jira-na{background:#eceff1;color:#546e7a}
 .p-jira-onhold{background:#fbe9e7;color:#bf360c}
+.p-jira-deployed{background:#c8e6c9;color:#1b5e20}
 .no-items{font-size:13px;color:#aaa;font-style:italic;padding:12px 16px;background:#fff;border-radius:8px}
 table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07);margin-top:6px}
 thead th{background:#1a237e;color:#fff;padding:10px 14px;font-size:10px;text-transform:uppercase;letter-spacing:0.7px;font-weight:700;text-align:left}
@@ -75,7 +76,7 @@ tbody tr:last-child td{border-bottom:none}
 
 <div class="header">
   <h1>CX Routing Issues Dashboard</h1>
-  <div class="date">Friday, May 15, 2026</div>
+  <div class="date">Thursday, May 15, 2026</div>
   <div class="byline">Prepared by Hasen Abbas &nbsp;|&nbsp; CX Planning &amp; Insights</div>
 </div>
 
@@ -83,10 +84,10 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- Summary Cards -->
 <div class="summary-row">
-  <div class="summary-card card-total"><div class="number">10</div><div class="label">Total Active</div></div>
-  <div class="summary-card card-usp"><div class="number">3</div><div class="label">USP</div></div>
-  <div class="summary-card card-ops"><div class="number">2</div><div class="label">Operations</div></div>
+  <div class="summary-card card-total"><div class="number">11</div><div class="label">Total Tracked</div></div>
+  <div class="summary-card card-dev"><div class="number">5</div><div class="label">In Development</div></div>
   <div class="summary-card card-pending"><div class="number">5</div><div class="label">Pending</div></div>
+  <div class="summary-card card-onhold"><div class="number">1</div><div class="label">On Hold</div></div>
   <div class="summary-card card-new"><div class="number">0</div><div class="label">New</div></div>
 </div>
 
@@ -106,7 +107,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>May 18</b></div>
-    <div class="issue-action">Reorg deployment on track for tonight; go-live Monday, active testing with no blockers reported.</div>
+    <div class="issue-action">Reorg deployment on track for Friday night; go-live Monday. Active testing with no blockers reported.</div>
   </div>
 
   <div class="issue-card">
@@ -118,7 +119,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b><span class="pastdue">May 11 &#x26A0; Past Due</span></b></div>
-    <div class="issue-action">05/09: Code deployed to dev; draft PR awaiting approval</div>
+    <div class="issue-action">Code written and deployed to dev; draft PR awaiting approval.</div>
   </div>
 
   <div class="issue-card">
@@ -130,7 +131,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>May 25</b></div>
-    <div class="issue-action">05/11: Jira stage updated to QA</div>
+    <div class="issue-action">Previous spike found 2 root causes. Fixes in implementation phase. 05/11: Jira stage updated to QA.</div>
   </div>
 </div>
 
@@ -149,8 +150,8 @@ tbody tr:last-child td{border-bottom:none}
         <span class="pill p-jira-na">Jira: N/A</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>May 15</b></div>
-    <div class="issue-action">~140 cases with 21&ndash;50 AH submitted for scrubbing; actively being worked on</div>
+    <div class="issue-mmdd">Expected Completion: <b>May 22</b></div>
+    <div class="issue-action">~140 cases with 21&ndash;50 AH submitted for scrubbing; actively being worked on.</div>
   </div>
 
   <div class="issue-card">
@@ -158,11 +159,11 @@ tbody tr:last-child td{border-bottom:none}
       <div class="issue-title">Auto Close &mdash; Await Internal Support</div>
       <div class="issue-badges">
         <span class="pill p-in-dev">In Development</span>
-        <span class="pill p-jira-spike">Jira: Spike</span>
+        <span class="pill p-jira-review">Jira: IN-REVIEW</span>
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>May 25</b></div>
-    <div class="issue-action">No actions logged — investigation in early spike phase</div>
+    <div class="issue-action">05/15: Jira stage updated to IN-REVIEW. Investigating whether &ldquo;stuck cases&rdquo; problem also affects &ldquo;Awaiting Internal Support.&rdquo;</div>
   </div>
 </div>
 
@@ -182,7 +183,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/09: Auto-populated fields from intake record</div>
+    <div class="issue-action">Research shows 36.5% of Care Benefits cases transferred out; 58% land in Care Payroll Taxes. Driven by broken classification pipeline.</div>
   </div>
 
   <div class="issue-card">
@@ -194,7 +195,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/09: Auto-populated fields from intake record</div>
+    <div class="issue-action">Notion intake submitted. Root cause is an ops process gap; tech is a backstop.</div>
   </div>
 
   <div class="issue-card">
@@ -206,7 +207,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/09: Auto-populated fields from intake record</div>
+    <div class="issue-action">Intake submitted. No controls on what agents can merge; context lost after merging.</div>
   </div>
 
   <div class="issue-card">
@@ -218,7 +219,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval</div>
+    <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval. Research conducted; project overview submitted to PM.</div>
   </div>
 
   <div class="issue-card">
@@ -230,7 +231,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval</div>
+    <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval. Flagged as future opportunity.</div>
   </div>
 </div>
 
@@ -266,7 +267,7 @@ tbody tr:last-child td{border-bottom:none}
       </tr>
       <tr>
         <td class="td-issue">Consumer Money Disputes</td>
-        <td class="td-action">05/09: Code deployed to dev; draft PR awaiting approval</td>
+        <td class="td-action">Code deployed to dev; draft PR awaiting approval</td>
         <td>USP: Implementation</td>
         <td><span class="owner-pill ow-usp">USP</span></td>
       </tr>
@@ -284,25 +285,25 @@ tbody tr:last-child td{border-bottom:none}
       </tr>
       <tr>
         <td class="td-issue">Auto Close &mdash; Await Int. Support</td>
-        <td class="td-action">No actions logged yet</td>
+        <td class="td-action">05/15: Jira stage updated to IN-REVIEW</td>
         <td>Investigate issue and gather initial details</td>
         <td><span class="owner-pill ow-routing">Routing</span></td>
       </tr>
       <tr>
         <td class="td-issue">Misrouted Care Benefits</td>
-        <td class="td-action">05/09: Auto-populated fields from intake record</td>
+        <td class="td-action">Research complete; broken classification pipeline identified</td>
         <td>Pending: intake, prioritization, Jira</td>
         <td><span class="owner-pill ow-pm">PM</span></td>
       </tr>
       <tr>
         <td class="td-issue">Dept. Change Alerts</td>
-        <td class="td-action">05/09: Auto-populated fields from intake record</td>
+        <td class="td-action">Notion intake submitted</td>
         <td>Confirm root-cause mitigation; prioritization &amp; Jira creation</td>
         <td><span class="owner-pill ow-pm">PM</span></td>
       </tr>
       <tr>
         <td class="td-issue">Case Merging Issues</td>
-        <td class="td-action">05/09: Auto-populated fields from intake record</td>
+        <td class="td-action">Intake submitted</td>
         <td>Confirm intake status, prioritization, and Jira tracking</td>
         <td><span class="owner-pill ow-pm">PM</span></td>
       </tr>
@@ -337,8 +338,8 @@ tbody tr:last-child td{border-bottom:none}
         <span class="pill p-jira-onhold">Jira: On-Hold</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/09: 10/21 intents identified for T1 move; L&amp;D building training; WFM continuing manual routing</div>
+    <div class="issue-mmdd">Expected Completion: <b>Sep 30</b></div>
+    <div class="issue-action">10/21 intents identified for T1 move; L&amp;D actively building training. Team meeting Mon 5/11 to categorize remaining intents. WFM continuing manual routing.</div>
   </div>
 </div>
 
