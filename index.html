@@ -5,71 +5,132 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CX Routing Issues Dashboard — May 15, 2026</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f5f6fa;color:#333;line-height:1.5;padding-bottom:48px}
-.container{max-width:900px;margin:0 auto;padding:0 20px}
-.header{background:linear-gradient(135deg,#1a237e 0%,#283593 100%);color:#fff;padding:36px 36px 28px;margin-bottom:28px;border-radius:0 0 14px 14px;box-shadow:0 4px 20px rgba(26,35,126,0.22)}
-.header h1{font-size:26px;font-weight:700;letter-spacing:-0.4px;margin-bottom:5px}
-.header .date{font-size:14px;opacity:0.85;margin-bottom:3px}
-.header .byline{font-size:12px;opacity:0.6;font-style:italic}
-.summary-row{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
-.summary-card{flex:1;min-width:130px;background:#fff;border-radius:10px;padding:20px 16px 16px;box-shadow:0 2px 8px rgba(0,0,0,0.07);transition:transform .15s}
-.summary-card:hover{transform:translateY(-2px)}
-.summary-card .number{font-size:38px;font-weight:800;line-height:1;margin-bottom:7px}
-.summary-card .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.9px;color:#888}
-.card-total{border-top:4px solid #1a237e}.card-total .number{color:#1a237e}
-.card-dev{border-top:4px solid #2e7d32}.card-dev .number{color:#2e7d32}
-.card-pending{border-top:4px solid #e65100}.card-pending .number{color:#e65100}
-.card-onhold{border-top:4px solid #c62828}.card-onhold .number{color:#c62828}
-.card-new{border-top:4px solid #00838f}.card-new .number{color:#00838f}
-.section{margin-bottom:24px}
-.section-header{display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;padding:9px 14px;border-radius:6px;margin-bottom:10px}
-.section-header .count{background:rgba(0,0,0,0.09);border-radius:10px;padding:2px 9px;font-size:11px}
-.sh-usp{background:#e8f0fe;color:#1565c0;border-left:4px solid #1565c0}
-.sh-ops{background:#e8f5e9;color:#2e7d32;border-left:4px solid #2e7d32}
-.sh-pending{background:#fff3e0;color:#e65100;border-left:4px solid #e65100}
-.sh-new{background:#e0f7fa;color:#00838f;border-left:4px solid #00838f}
-.sh-onhold{background:#fce4ec;color:#c62828;border-left:4px solid #c62828}
-.sh-activity{background:#f3f4ff;color:#1a237e;border-left:4px solid #1a237e}
-.issue-card{background:#fff;border-radius:8px;padding:14px 18px;margin-bottom:8px;box-shadow:0 1px 5px rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:6px}
-.issue-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.issue-title{font-size:14px;font-weight:600;color:#1a237e;flex:1}
-.issue-badges{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.issue-mmdd{font-size:11px;color:#888}
-.issue-mmdd b{color:#444;font-weight:600}
-.issue-mmdd .pastdue{color:#c62828;font-weight:700}
-.issue-action{font-size:12px;color:#666;font-style:italic;background:#f9fafb;padding:5px 10px;border-radius:4px;border-left:2px solid #e0e4ef}
-.pill{display:inline-block;padding:2px 9px;border-radius:11px;font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:0.2px}
-.p-in-dev{background:#d4edda;color:#155724}
-.p-intake{background:#fff3cd;color:#856404}
-.p-pend-intake{background:#e2e3e5;color:#383d41}
-.p-on-hold{background:#f8d7da;color:#721c24}
-.p-new{background:#cce5ff;color:#004085}
-.p-jira-dev{background:#bbdefb;color:#0d47a1}
-.p-jira-qa{background:#ffe0b2;color:#bf360c}
-.p-jira-uat{background:#fff9c4;color:#827717}
-.p-jira-review{background:#e1bee7;color:#4a148c}
-.p-jira-spike{background:#f3e5f5;color:#6a1b9a}
-.p-jira-na{background:#eceff1;color:#546e7a}
-.p-jira-onhold{background:#fbe9e7;color:#bf360c}
-.p-jira-deployed{background:#c8e6c9;color:#1b5e20}
-.no-items{font-size:13px;color:#aaa;font-style:italic;padding:12px 16px;background:#fff;border-radius:8px}
-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.07);margin-top:6px}
-thead th{background:#1a237e;color:#fff;padding:10px 14px;font-size:10px;text-transform:uppercase;letter-spacing:0.7px;font-weight:700;text-align:left}
-tbody td{padding:10px 14px;font-size:12px;vertical-align:top;border-bottom:1px solid #f0f0f0;color:#333}
-tbody tr:nth-child(even) td{background:#f8f9ff}
+body{font-family:'Inter','Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f0f2f7;color:#333;line-height:1.6;padding-bottom:48px}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.header{background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%);color:#fff;padding:40px 40px 32px;margin-bottom:32px;border-radius:0 0 16px 16px;box-shadow:0 8px 32px rgba(15,23,42,0.25);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-50%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,0.15) 0%,transparent 70%);pointer-events:none}
+.header h1{font-size:28px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
+.header .date{font-size:14px;opacity:0.75;font-weight:500;margin-bottom:2px}
+.header .byline{font-size:12px;opacity:0.5;font-weight:400}
+
+/* Summary Cards */
+.summary-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:32px}
+.summary-card{background:#fff;border-radius:12px;padding:22px 18px 18px;box-shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 12px rgba(0,0,0,0.04);transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden}
+.summary-card:hover{transform:translateY(-3px);box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.summary-card .number{font-size:40px;font-weight:900;line-height:1;margin-bottom:6px;letter-spacing:-1px}
+.summary-card .label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94a3b8}
+.summary-card .bar{position:absolute;top:0;left:0;right:0;height:4px}
+.bar-total{background:linear-gradient(90deg,#1e293b,#475569)}.card-total .number{color:#1e293b}
+.bar-dev{background:linear-gradient(90deg,#059669,#34d399)}.card-dev .number{color:#059669}
+.bar-pending{background:linear-gradient(90deg,#d97706,#fbbf24)}.card-pending .number{color:#d97706}
+.bar-onhold{background:linear-gradient(90deg,#dc2626,#f87171)}.card-onhold .number{color:#dc2626}
+.bar-new{background:linear-gradient(90deg,#0891b2,#67e8f9)}.card-new .number{color:#0891b2}
+
+/* Progress Bar */
+.progress-section{margin-bottom:32px}
+.progress-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:#64748b;margin-bottom:8px}
+.progress-bar{display:flex;height:10px;border-radius:6px;overflow:hidden;background:#e2e8f0;box-shadow:inset 0 1px 2px rgba(0,0,0,0.06)}
+.prog-dev{background:linear-gradient(90deg,#059669,#34d399)}
+.prog-pending{background:linear-gradient(90deg,#d97706,#fbbf24)}
+.prog-onhold{background:linear-gradient(90deg,#dc2626,#f87171)}
+.prog-resolved{background:linear-gradient(90deg,#6366f1,#a5b4fc)}
+.progress-legend{display:flex;gap:18px;margin-top:8px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:600;color:#64748b}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* Sections */
+.section{margin-bottom:28px}
+.section-header{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:10px 16px;border-radius:8px;margin-bottom:12px}
+.section-header .count{background:rgba(0,0,0,0.08);border-radius:12px;padding:3px 10px;font-size:11px;font-weight:800}
+.sh-usp{background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#1d4ed8;border-left:4px solid #3b82f6}
+.sh-ops{background:linear-gradient(135deg,#f0fdf4,#dcfce7);color:#16a34a;border-left:4px solid #22c55e}
+.sh-pending{background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#b45309;border-left:4px solid #f59e0b}
+.sh-new{background:linear-gradient(135deg,#ecfeff,#cffafe);color:#0e7490;border-left:4px solid #06b6d4}
+.sh-onhold{background:linear-gradient(135deg,#fef2f2,#fecaca);color:#b91c1c;border-left:4px solid #ef4444}
+.sh-activity{background:linear-gradient(135deg,#eef2ff,#e0e7ff);color:#4338ca;border-left:4px solid #6366f1}
+.sh-resolved{background:linear-gradient(135deg,#f8fafc,#f1f5f9);color:#475569;border-left:4px solid #94a3b8}
+
+/* Issue Cards */
+.issue-card{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.05),0 2px 8px rgba(0,0,0,0.03);display:flex;flex-direction:column;gap:8px;border:1px solid #f1f5f9;transition:box-shadow .15s}
+.issue-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.issue-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.issue-title{font-size:14px;font-weight:700;color:#1e293b;flex:1}
+.issue-badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.issue-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.issue-mmdd{font-size:11px;color:#94a3b8;font-weight:500}
+.issue-mmdd b{color:#475569;font-weight:700}
+.issue-mmdd .pastdue{color:#dc2626;font-weight:800}
+.issue-jira{font-size:10px;color:#94a3b8;font-weight:500}
+.issue-jira b{color:#6366f1;font-weight:600}
+.issue-action{font-size:12px;color:#64748b;background:#f8fafc;padding:8px 12px;border-radius:6px;border-left:3px solid #e2e8f0;line-height:1.5}
+
+/* Pills */
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:0.2px}
+.p-in-dev{background:#dcfce7;color:#166534}
+.p-intake{background:#fef3c7;color:#92400e}
+.p-pend-intake{background:#f1f5f9;color:#475569}
+.p-on-hold{background:#fee2e2;color:#991b1b}
+.p-resolved{background:#e0e7ff;color:#3730a3}
+.p-jira-dev{background:#dbeafe;color:#1e40af}
+.p-jira-qa{background:#fed7aa;color:#9a3412}
+.p-jira-uat{background:#fef9c4;color:#854d0e}
+.p-jira-review{background:#e9d5ff;color:#6b21a8}
+.p-jira-spike{background:#fae8ff;color:#86198f}
+.p-jira-na{background:#f1f5f9;color:#64748b}
+.p-jira-onhold{background:#fee2e2;color:#b91c1c}
+.p-jira-deployed{background:#d1fae5;color:#065f46}
+.p-jira-pending{background:#f1f5f9;color:#64748b}
+
+.no-items{font-size:13px;color:#94a3b8;font-style:italic;padding:14px 18px;background:#fff;border-radius:10px;border:1px dashed #e2e8f0}
+
+/* Table */
+table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05),0 4px 12px rgba(0,0,0,0.04);margin-top:8px;border:1px solid #f1f5f9}
+thead th{background:#1e293b;color:#fff;padding:12px 16px;font-size:10px;text-transform:uppercase;letter-spacing:0.8px;font-weight:700;text-align:left}
+thead th:first-child{border-radius:0}
+thead th:last-child{border-radius:0}
+tbody td{padding:12px 16px;font-size:12px;vertical-align:top;border-bottom:1px solid #f1f5f9;color:#334155}
+tbody tr:nth-child(even) td{background:#f8fafc}
 tbody tr:last-child td{border-bottom:none}
-.td-issue{font-weight:600;color:#1a237e;font-size:12px}
-.td-action{font-style:italic;color:#666}
-.owner-pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap;margin:1px 2px}
+tbody tr:hover td{background:#f1f5f9}
+.td-issue{font-weight:700;color:#1e293b;font-size:12px}
+.td-action{color:#64748b;font-size:11px}
+.td-next{font-size:11px;color:#334155}
+
+/* Owner Pills */
+.owner-pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap;margin:1px 2px}
 .ow-usp{background:#dbeafe;color:#1e40af}
 .ow-ops{background:#dcfce7;color:#166534}
-.ow-pm{background:#fef9c3;color:#854d0e}
+.ow-pm{background:#fef3c7;color:#92400e}
 .ow-sta{background:#d1fae5;color:#065f46}
-.ow-ld{background:#ede9fe;color:#6b21a8}
-.ow-routing{background:#fed7aa;color:#9a3412}
-.ow-wfm{background:#e0f2fe;color:#0c4a6e}
-.footer{text-align:center;font-size:11px;color:#bbb;margin-top:32px;padding-top:16px;border-top:1px solid #e8ecf0;letter-spacing:0.3px}
+.ow-ld{background:#ede9fe;color:#5b21b6}
+.ow-routing{background:#ffedd5;color:#9a3412}
+.ow-wfm{background:#e0f2fe;color:#075985}
+.ow-pending{background:#f1f5f9;color:#64748b}
+.ow-na{background:#f1f5f9;color:#94a3b8}
+
+/* Resolved Cards */
+.resolved-card{background:#fff;border-radius:10px;padding:12px 20px;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,0.03);display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #f1f5f9;opacity:0.75}
+.resolved-card .issue-title{font-size:13px;color:#64748b;font-weight:600}
+.resolved-info{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.resolved-date{font-size:10px;color:#94a3b8;font-weight:500}
+
+/* Footer */
+.footer{text-align:center;font-size:11px;color:#94a3b8;margin-top:36px;padding-top:18px;border-top:1px solid #e2e8f0;letter-spacing:0.3px;font-weight:500}
+
+/* Responsive */
+@media(max-width:700px){
+  .summary-row{grid-template-columns:repeat(3,1fr)}
+  .header{padding:28px 24px 22px}
+  .header h1{font-size:22px}
+}
+@media(max-width:480px){
+  .summary-row{grid-template-columns:repeat(2,1fr)}
+  .issue-top{flex-direction:column}
+}
 </style>
 </head>
 <body>
@@ -84,18 +145,35 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- Summary Cards -->
 <div class="summary-row">
-  <div class="summary-card card-total"><div class="number">11</div><div class="label">Total Tracked</div></div>
-  <div class="summary-card card-dev"><div class="number">5</div><div class="label">In Development</div></div>
-  <div class="summary-card card-pending"><div class="number">5</div><div class="label">Pending</div></div>
-  <div class="summary-card card-onhold"><div class="number">1</div><div class="label">On Hold</div></div>
-  <div class="summary-card card-new"><div class="number">0</div><div class="label">New</div></div>
+  <div class="summary-card card-total"><div class="bar bar-total"></div><div class="number">11</div><div class="label">Total Active</div></div>
+  <div class="summary-card card-dev"><div class="bar bar-dev"></div><div class="number">5</div><div class="label">In Development</div></div>
+  <div class="summary-card card-pending"><div class="bar bar-pending"></div><div class="number">5</div><div class="label">Pending</div></div>
+  <div class="summary-card card-onhold"><div class="bar bar-onhold"></div><div class="number">1</div><div class="label">On Hold</div></div>
+  <div class="summary-card card-new"><div class="bar bar-new"></div><div class="number">0</div><div class="label">New</div></div>
+</div>
+
+<!-- Progress Bar -->
+<div class="progress-section">
+  <div class="progress-label">Pipeline Status &mdash; 14 Total Issues (3 Resolved)</div>
+  <div class="progress-bar">
+    <div class="prog-dev" style="width:35.7%" title="In Development: 5"></div>
+    <div class="prog-pending" style="width:35.7%" title="Pending: 5"></div>
+    <div class="prog-onhold" style="width:7.1%" title="On Hold: 1"></div>
+    <div class="prog-resolved" style="width:21.4%" title="Resolved: 3"></div>
+  </div>
+  <div class="progress-legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#059669"></span>In Development (5)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#d97706"></span>Pending (5)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#dc2626"></span>On Hold (1)</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#6366f1"></span>Resolved (3)</div>
+  </div>
 </div>
 
 <!-- Section 1: USP -->
 <div class="section">
   <div class="section-header sh-usp">
     Actively Worked On &mdash; USP
-    <span class="count">3</span>
+    <span class="count">4</span>
   </div>
 
   <div class="issue-card">
@@ -106,7 +184,10 @@ tbody tr:last-child td{border-bottom:none}
         <span class="pill p-jira-dev">Jira: Dev</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>May 18</b></div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Target: <b>May 18</b></div>
+      <div class="issue-jira">Tickets: <b>USPCO-2088, USPCO-2090</b></div>
+    </div>
     <div class="issue-action">Reorg deployment on track for Friday night; go-live Monday. Active testing with no blockers reported.</div>
   </div>
 
@@ -118,7 +199,10 @@ tbody tr:last-child td{border-bottom:none}
         <span class="pill p-jira-review">Jira: IN-REVIEW</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b><span class="pastdue">May 11 &#x26A0; Past Due</span></b></div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Target: <b><span class="pastdue">May 11 &#x26A0; Past Due</span></b></div>
+      <div class="issue-jira">Ticket: <b>USPRTE-995</b></div>
+    </div>
     <div class="issue-action">Code written and deployed to dev; draft PR awaiting approval.</div>
   </div>
 
@@ -130,28 +214,11 @@ tbody tr:last-child td{border-bottom:none}
         <span class="pill p-jira-qa">Jira: QA</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>May 25</b></div>
-    <div class="issue-action">Previous spike found 2 root causes. Fixes in implementation phase. 05/11: Jira stage updated to QA.</div>
-  </div>
-</div>
-
-<!-- Section 2: Operations -->
-<div class="section">
-  <div class="section-header sh-ops">
-    Actively Worked On &mdash; Operations
-    <span class="count">2</span>
-  </div>
-
-  <div class="issue-card">
-    <div class="issue-top">
-      <div class="issue-title">Aged Cases (21&ndash;50 Day)</div>
-      <div class="issue-badges">
-        <span class="pill p-in-dev">In Development</span>
-        <span class="pill p-jira-na">Jira: N/A</span>
-      </div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Target: <b>May 25</b></div>
+      <div class="issue-jira">Tickets: <b>USPRTE-1014</b> &nbsp; USPRTE-982 (Spike Done)</div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>May 22</b></div>
-    <div class="issue-action">~140 cases with 21&ndash;50 AH submitted for scrubbing; actively being worked on.</div>
+    <div class="issue-action">Previous spike found 2 root causes. Fixes in implementation phase. 05/11: Jira stage updated to QA.</div>
   </div>
 
   <div class="issue-card">
@@ -162,8 +229,33 @@ tbody tr:last-child td{border-bottom:none}
         <span class="pill p-jira-review">Jira: IN-REVIEW</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>May 25</b></div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Target: <b>May 25</b></div>
+      <div class="issue-jira">Ticket: <b>USPRTE-1015 (Spike)</b></div>
+    </div>
     <div class="issue-action">05/15: Jira stage updated to IN-REVIEW. Investigating whether &ldquo;stuck cases&rdquo; problem also affects &ldquo;Awaiting Internal Support.&rdquo;</div>
+  </div>
+</div>
+
+<!-- Section 2: Operations -->
+<div class="section">
+  <div class="section-header sh-ops">
+    Actively Worked On &mdash; Operations
+    <span class="count">1</span>
+  </div>
+
+  <div class="issue-card">
+    <div class="issue-top">
+      <div class="issue-title">Aged Cases (21&ndash;50 Day)</div>
+      <div class="issue-badges">
+        <span class="pill p-in-dev">In Development</span>
+        <span class="pill p-jira-na">Jira: N/A</span>
+      </div>
+    </div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Target: <b>May 22</b></div>
+    </div>
+    <div class="issue-action">~140 cases with 21&ndash;50 day age submitted for scrubbing; actively being worked on by Ops PEs.</div>
   </div>
 </div>
 
@@ -179,10 +271,12 @@ tbody tr:last-child td{border-bottom:none}
       <div class="issue-title">Misrouted Care Benefits Cases</div>
       <div class="issue-badges">
         <span class="pill p-intake">Intake Submitted</span>
-        <span class="pill p-jira-na">Jira: Pending</span>
+        <span class="pill p-jira-pending">Jira: Pending</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Owner: <b>PM</b></div>
+    </div>
     <div class="issue-action">Research shows 36.5% of Care Benefits cases transferred out; 58% land in Care Payroll Taxes. Driven by broken classification pipeline.</div>
   </div>
 
@@ -191,11 +285,13 @@ tbody tr:last-child td{border-bottom:none}
       <div class="issue-title">Dept. Change Alerts</div>
       <div class="issue-badges">
         <span class="pill p-intake">Intake Submitted</span>
-        <span class="pill p-jira-na">Jira: Pending</span>
+        <span class="pill p-jira-pending">Jira: Pending</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">Notion intake submitted. Root cause is an ops process gap; tech is a backstop.</div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Owner: <b>PM</b></div>
+    </div>
+    <div class="issue-action">Notion intake submitted. Root cause is an ops process gap; tech is a backstop. Pending prioritization and Jira creation.</div>
   </div>
 
   <div class="issue-card">
@@ -203,11 +299,13 @@ tbody tr:last-child td{border-bottom:none}
       <div class="issue-title">Case Merging Issues</div>
       <div class="issue-badges">
         <span class="pill p-intake">Intake Submitted</span>
-        <span class="pill p-jira-na">Jira: Pending</span>
+        <span class="pill p-jira-pending">Jira: Pending</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">Intake submitted. No controls on what agents can merge; context lost after merging.</div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Owner: <b>PM</b></div>
+    </div>
+    <div class="issue-action">Intake submitted. No controls on what agents can merge; context lost after merging. Pending prioritization and Jira tracking.</div>
   </div>
 
   <div class="issue-card">
@@ -215,10 +313,12 @@ tbody tr:last-child td{border-bottom:none}
       <div class="issue-title">Gus Email Restrictions</div>
       <div class="issue-badges">
         <span class="pill p-pend-intake">Pending Intake</span>
-        <span class="pill p-jira-na">Jira: Pending</span>
+        <span class="pill p-jira-pending">Jira: Pending</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Owner: <b>Pending</b></div>
+    </div>
     <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval. Research conducted; project overview submitted to PM.</div>
   </div>
 
@@ -227,21 +327,38 @@ tbody tr:last-child td{border-bottom:none}
       <div class="issue-title">Auto-Flag Pending Customer Commitment</div>
       <div class="issue-badges">
         <span class="pill p-pend-intake">Pending Intake</span>
-        <span class="pill p-jira-na">Jira: Pending</span>
+        <span class="pill p-jira-pending">Jira: Pending</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Owner: <b>Pending</b></div>
+    </div>
     <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval. Flagged as future opportunity.</div>
   </div>
 </div>
 
-<!-- Section 4: New -->
+<!-- Section 4: On Hold -->
 <div class="section">
-  <div class="section-header sh-new">
-    New
-    <span class="count">0</span>
+  <div class="section-header sh-onhold">
+    On Hold
+    <span class="count">1</span>
   </div>
-  <div class="no-items">No new issues logged.</div>
+
+  <div class="issue-card">
+    <div class="issue-top">
+      <div class="issue-title">T1/T2 Logic Update</div>
+      <div class="issue-badges">
+        <span class="pill p-on-hold">On Hold</span>
+        <span class="pill p-jira-onhold">Jira: On-Hold</span>
+      </div>
+    </div>
+    <div class="issue-meta">
+      <div class="issue-mmdd">Target: <b>Sep 30</b></div>
+      <div class="issue-jira">Ticket: <b>USPRTE-985</b></div>
+      <div class="issue-mmdd">Owner: <b>Operations</b></div>
+    </div>
+    <div class="issue-action">10/21 intents identified for T1 move; L&amp;D actively building training. Team meeting Mon 5/11 to categorize remaining intents into three buckets. WFM continuing manual routing.</div>
+  </div>
 </div>
 
 <!-- Activity & Next Steps Table -->
@@ -253,93 +370,111 @@ tbody tr:last-child td{border-bottom:none}
     <thead>
       <tr>
         <th style="width:20%">Issue</th>
-        <th style="width:30%">Last Action</th>
+        <th style="width:28%">Last Action</th>
         <th style="width:32%">Next Steps</th>
-        <th style="width:18%">Owner</th>
+        <th style="width:20%">Owner</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td class="td-issue">CX Org Routing &mdash; 5/18</td>
         <td class="td-action">Reorg deployment on track; go-live Monday, no blockers</td>
-        <td>USP: Implementation</td>
+        <td class="td-next">USP: Implementation</td>
         <td><span class="owner-pill ow-usp">USP</span></td>
       </tr>
       <tr>
         <td class="td-issue">Consumer Money Disputes</td>
         <td class="td-action">Code deployed to dev; draft PR awaiting approval</td>
-        <td>USP: Implementation</td>
+        <td class="td-next">USP: Implementation</td>
         <td><span class="owner-pill ow-usp">USP</span></td>
       </tr>
       <tr>
         <td class="td-issue">Auto Close &mdash; Await Cust. Response</td>
         <td class="td-action">05/11: Jira stage updated to QA</td>
-        <td>Sign-off on auto-close rules; USP: Implementation</td>
-        <td><span class="owner-pill ow-ops">Operations</span> <span class="owner-pill ow-usp">USP</span></td>
-      </tr>
-      <tr>
-        <td class="td-issue">Aged Cases (21&ndash;50 Day)</td>
-        <td class="td-action">~140 cases submitted for scrubbing; actively worked on</td>
-        <td>Ops PEs to scrub backlog EOW; Hasen &amp; Sushama to close cases</td>
-        <td><span class="owner-pill ow-ops">Operations</span> <span class="owner-pill ow-sta">S&amp;TA</span></td>
+        <td class="td-next">Sign-off on auto-close business rules; USP: Implementation</td>
+        <td><span class="owner-pill ow-usp">USP</span></td>
       </tr>
       <tr>
         <td class="td-issue">Auto Close &mdash; Await Int. Support</td>
         <td class="td-action">05/15: Jira stage updated to IN-REVIEW</td>
-        <td>Investigate issue and gather initial details</td>
-        <td><span class="owner-pill ow-routing">Routing</span></td>
+        <td class="td-next">Investigate issue and gather initial details</td>
+        <td><span class="owner-pill ow-usp">USP</span></td>
+      </tr>
+      <tr>
+        <td class="td-issue">Aged Cases (21&ndash;50 Day)</td>
+        <td class="td-action">~140 cases submitted for scrubbing; actively worked on</td>
+        <td class="td-next">Ops PEs to scrub backlog EOW; Hasen &amp; Sushama to close cases</td>
+        <td><span class="owner-pill ow-ops">Operations</span></td>
+      </tr>
+      <tr>
+        <td class="td-issue">T1/T2 Logic Update</td>
+        <td class="td-action">10/21 intents identified; L&amp;D building training</td>
+        <td class="td-next">L&amp;D to categorize remaining intents; WFM: continue manual routing</td>
+        <td><span class="owner-pill ow-ops">Operations</span></td>
       </tr>
       <tr>
         <td class="td-issue">Misrouted Care Benefits</td>
         <td class="td-action">Research complete; broken classification pipeline identified</td>
-        <td>Pending: intake, prioritization, Jira</td>
+        <td class="td-next">Pending: intake, prioritization, Jira</td>
         <td><span class="owner-pill ow-pm">PM</span></td>
       </tr>
       <tr>
         <td class="td-issue">Dept. Change Alerts</td>
         <td class="td-action">Notion intake submitted</td>
-        <td>Confirm root-cause mitigation; prioritization &amp; Jira creation</td>
+        <td class="td-next">Confirm root-cause mitigation; prioritization &amp; Jira creation</td>
         <td><span class="owner-pill ow-pm">PM</span></td>
       </tr>
       <tr>
         <td class="td-issue">Case Merging Issues</td>
         <td class="td-action">Intake submitted</td>
-        <td>Confirm intake status, prioritization, and Jira tracking</td>
+        <td class="td-next">Confirm intake status, prioritization, and Jira tracking</td>
         <td><span class="owner-pill ow-pm">PM</span></td>
       </tr>
       <tr>
         <td class="td-issue">Gus Email Restrictions</td>
         <td class="td-action">05/15: Slack DM draft sent to Hasen for approval</td>
-        <td>Pending prioritization</td>
-        <td><span class="owner-pill ow-pm">PM</span></td>
+        <td class="td-next">Pending prioritization</td>
+        <td><span class="owner-pill ow-pending">Pending</span></td>
       </tr>
       <tr>
         <td class="td-issue">Auto-Flag Cust. Commit</td>
         <td class="td-action">05/15: Slack DM draft sent to Hasen for approval</td>
-        <td>Follow up with submitter for intake submission</td>
-        <td><span class="owner-pill ow-routing">Routing</span></td>
+        <td class="td-next">Follow up with submitter for intake submission</td>
+        <td><span class="owner-pill ow-pending">Pending</span></td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- On Hold Section -->
+<!-- Resolved Section -->
 <div class="section">
-  <div class="section-header sh-onhold">
-    On Hold
-    <span class="count">1</span>
+  <div class="section-header sh-resolved">
+    Recently Resolved
+    <span class="count">3</span>
   </div>
 
-  <div class="issue-card">
-    <div class="issue-top">
-      <div class="issue-title">T1/T2 Logic Update</div>
-      <div class="issue-badges">
-        <span class="pill p-in-dev">In Development</span>
-        <span class="pill p-jira-onhold">Jira: On-Hold</span>
-      </div>
+  <div class="resolved-card">
+    <div class="issue-title">Restrict Manual Case Transfers</div>
+    <div class="resolved-info">
+      <span class="pill p-jira-deployed">Deployed</span>
+      <span class="resolved-date">Apr 13</span>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>Sep 30</b></div>
-    <div class="issue-action">10/21 intents identified for T1 move; L&amp;D actively building training. Team meeting Mon 5/11 to categorize remaining intents. WFM continuing manual routing.</div>
+  </div>
+
+  <div class="resolved-card">
+    <div class="issue-title">Termed Employee Case Reassignment</div>
+    <div class="resolved-info">
+      <span class="pill p-jira-deployed">Deployed</span>
+      <span class="resolved-date">Apr 22</span>
+    </div>
+  </div>
+
+  <div class="resolved-card">
+    <div class="issue-title">Aged Cases (50+ Days)</div>
+    <div class="resolved-info">
+      <span class="pill p-resolved">Resolved</span>
+      <span class="resolved-date">Apr 29</span>
+    </div>
   </div>
 </div>
 
