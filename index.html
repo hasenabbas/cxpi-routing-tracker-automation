@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CX Routing Issues Dashboard — May 14, 2026</title>
+<title>CX Routing Issues Dashboard — May 15, 2026</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f5f6fa;color:#333;line-height:1.5;padding-bottom:48px}
@@ -49,7 +49,7 @@ body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f5f6fa
 .p-jira-qa{background:#ffe0b2;color:#bf360c}
 .p-jira-uat{background:#fff9c4;color:#827717}
 .p-jira-review{background:#e1bee7;color:#4a148c}
-.p-jira-todo{background:#f3e5f5;color:#6a1b9a}
+.p-jira-spike{background:#f3e5f5;color:#6a1b9a}
 .p-jira-na{background:#eceff1;color:#546e7a}
 .p-jira-onhold{background:#fbe9e7;color:#bf360c}
 .no-items{font-size:13px;color:#aaa;font-style:italic;padding:12px 16px;background:#fff;border-radius:8px}
@@ -75,7 +75,7 @@ tbody tr:last-child td{border-bottom:none}
 
 <div class="header">
   <h1>CX Routing Issues Dashboard</h1>
-  <div class="date">Thursday, May 14, 2026</div>
+  <div class="date">Friday, May 15, 2026</div>
   <div class="byline">Prepared by Hasen Abbas &nbsp;|&nbsp; CX Planning &amp; Insights</div>
 </div>
 
@@ -83,9 +83,9 @@ tbody tr:last-child td{border-bottom:none}
 
 <!-- Summary Cards -->
 <div class="summary-row">
-  <div class="summary-card card-total"><div class="number">9</div><div class="label">Total Active</div></div>
+  <div class="summary-card card-total"><div class="number">10</div><div class="label">Total Active</div></div>
   <div class="summary-card card-usp"><div class="number">3</div><div class="label">USP</div></div>
-  <div class="summary-card card-ops"><div class="number">1</div><div class="label">Operations</div></div>
+  <div class="summary-card card-ops"><div class="number">2</div><div class="label">Operations</div></div>
   <div class="summary-card card-pending"><div class="number">5</div><div class="label">Pending</div></div>
   <div class="summary-card card-new"><div class="number">0</div><div class="label">New</div></div>
 </div>
@@ -106,7 +106,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>May 18</b></div>
-    <div class="issue-action">05/11: Jira stage updated to Dev</div>
+    <div class="issue-action">Reorg deployment on track for tonight; go-live Monday, active testing with no blockers reported.</div>
   </div>
 
   <div class="issue-card">
@@ -117,19 +117,19 @@ tbody tr:last-child td{border-bottom:none}
         <span class="pill p-jira-review">Jira: IN-REVIEW</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b class="pastdue">May 11 &#x26A0;</b></div>
+    <div class="issue-mmdd">Expected Completion: <b><span class="pastdue">May 11 &#x26A0; Past Due</span></b></div>
     <div class="issue-action">05/09: Code deployed to dev; draft PR awaiting approval</div>
   </div>
 
   <div class="issue-card">
     <div class="issue-top">
-      <div class="issue-title">Email Auto-Close Logic</div>
+      <div class="issue-title">Auto Close &mdash; Await Customer Response</div>
       <div class="issue-badges">
         <span class="pill p-in-dev">In Development</span>
         <span class="pill p-jira-qa">Jira: QA</span>
       </div>
     </div>
-    <div class="issue-mmdd">Expected Completion: <b>May 22</b></div>
+    <div class="issue-mmdd">Expected Completion: <b>May 25</b></div>
     <div class="issue-action">05/11: Jira stage updated to QA</div>
   </div>
 </div>
@@ -138,7 +138,7 @@ tbody tr:last-child td{border-bottom:none}
 <div class="section">
   <div class="section-header sh-ops">
     Actively Worked On &mdash; Operations
-    <span class="count">1</span>
+    <span class="count">2</span>
   </div>
 
   <div class="issue-card">
@@ -151,6 +151,18 @@ tbody tr:last-child td{border-bottom:none}
     </div>
     <div class="issue-mmdd">Expected Completion: <b>May 15</b></div>
     <div class="issue-action">~140 cases with 21&ndash;50 AH submitted for scrubbing; actively being worked on</div>
+  </div>
+
+  <div class="issue-card">
+    <div class="issue-top">
+      <div class="issue-title">Auto Close &mdash; Await Internal Support</div>
+      <div class="issue-badges">
+        <span class="pill p-in-dev">In Development</span>
+        <span class="pill p-jira-spike">Jira: Spike</span>
+      </div>
+    </div>
+    <div class="issue-mmdd">Expected Completion: <b>May 25</b></div>
+    <div class="issue-action">No actions logged — investigation in early spike phase</div>
   </div>
 </div>
 
@@ -206,7 +218,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/12: Slack DM draft sent to Hasen for approval</div>
+    <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval</div>
   </div>
 
   <div class="issue-card">
@@ -218,7 +230,7 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/12: Slack DM draft sent to Hasen for approval</div>
+    <div class="issue-action">05/15: Slack DM draft sent to Hasen for approval</div>
   </div>
 </div>
 
@@ -248,7 +260,7 @@ tbody tr:last-child td{border-bottom:none}
     <tbody>
       <tr>
         <td class="td-issue">CX Org Routing &mdash; 5/18</td>
-        <td class="td-action">05/11: Jira stage updated to Dev</td>
+        <td class="td-action">Reorg deployment on track; go-live Monday, no blockers</td>
         <td>USP: Implementation</td>
         <td><span class="owner-pill ow-usp">USP</span></td>
       </tr>
@@ -259,7 +271,7 @@ tbody tr:last-child td{border-bottom:none}
         <td><span class="owner-pill ow-usp">USP</span></td>
       </tr>
       <tr>
-        <td class="td-issue">Email Auto-Close Logic</td>
+        <td class="td-issue">Auto Close &mdash; Await Cust. Response</td>
         <td class="td-action">05/11: Jira stage updated to QA</td>
         <td>Sign-off on auto-close rules; USP: Implementation</td>
         <td><span class="owner-pill ow-ops">Operations</span> <span class="owner-pill ow-usp">USP</span></td>
@@ -269,6 +281,12 @@ tbody tr:last-child td{border-bottom:none}
         <td class="td-action">~140 cases submitted for scrubbing; actively worked on</td>
         <td>Ops PEs to scrub backlog EOW; Hasen &amp; Sushama to close cases</td>
         <td><span class="owner-pill ow-ops">Operations</span> <span class="owner-pill ow-sta">S&amp;TA</span></td>
+      </tr>
+      <tr>
+        <td class="td-issue">Auto Close &mdash; Await Int. Support</td>
+        <td class="td-action">No actions logged yet</td>
+        <td>Investigate issue and gather initial details</td>
+        <td><span class="owner-pill ow-routing">Routing</span></td>
       </tr>
       <tr>
         <td class="td-issue">Misrouted Care Benefits</td>
@@ -290,13 +308,13 @@ tbody tr:last-child td{border-bottom:none}
       </tr>
       <tr>
         <td class="td-issue">Gus Email Restrictions</td>
-        <td class="td-action">05/12: Slack DM draft sent to Hasen for approval</td>
+        <td class="td-action">05/15: Slack DM draft sent to Hasen for approval</td>
         <td>Pending prioritization</td>
         <td><span class="owner-pill ow-pm">PM</span></td>
       </tr>
       <tr>
         <td class="td-issue">Auto-Flag Cust. Commit</td>
-        <td class="td-action">05/12: Slack DM draft sent to Hasen for approval</td>
+        <td class="td-action">05/15: Slack DM draft sent to Hasen for approval</td>
         <td>Follow up with submitter for intake submission</td>
         <td><span class="owner-pill ow-routing">Routing</span></td>
       </tr>
@@ -320,12 +338,12 @@ tbody tr:last-child td{border-bottom:none}
       </div>
     </div>
     <div class="issue-mmdd">Expected Completion: <b>Pending</b></div>
-    <div class="issue-action">05/09: L&amp;D to categorize remaining intents; WFM continuing manual routing</div>
+    <div class="issue-action">05/09: 10/21 intents identified for T1 move; L&amp;D building training; WFM continuing manual routing</div>
   </div>
 </div>
 
 <div class="footer">
-  Auto-generated by CX Routing Tracker &nbsp;&bull;&nbsp; May 14, 2026 &nbsp;&bull;&nbsp; For CX Leadership Review
+  Auto-generated by CX Routing Tracker &nbsp;&bull;&nbsp; May 15, 2026 &nbsp;&bull;&nbsp; For CX Leadership Review
 </div>
 
 </div>
