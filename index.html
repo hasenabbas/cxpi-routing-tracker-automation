@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CX Routing Issues Dashboard — August 4, 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #f5f6fa;
+    color: #2d3748;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+    border-radius: 12px;
+    padding: 32px 36px;
+    color: #fff;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 18px rgba(26,35,126,0.18);
+  }
+  .header h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 6px; }
+  .header .date { font-size: 1rem; opacity: 0.85; margin-bottom: 4px; }
+  .header .byline { font-size: 0.82rem; opacity: 0.65; letter-spacing: 0.3px; }
+
+  /* SUMMARY CARDS */
+  .cards {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .card {
+    flex: 1;
+    min-width: 130px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 16px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-top: 4px solid #ccc;
+    text-align: center;
+  }
+  .card .num { font-size: 2.2rem; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+  .card .label { font-size: 0.68rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #718096; }
+  .card.total { border-top-color: #1a237e; } .card.total .num { color: #1a237e; }
+  .card.usp   { border-top-color: #2e7d32; } .card.usp   .num { color: #2e7d32; }
+  .card.ops   { border-top-color: #e65100; } .card.ops   .num { color: #e65100; }
+  .card.pend  { border-top-color: #6a1b9a; } .card.pend  .num { color: #6a1b9a; }
+  .card.new   { border-top-color: #0277bd; } .card.new   .num { color: #0277bd; }
+
+  /* SECTIONS */
+  .section { margin-bottom: 28px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 0;
+  }
+  .section-header h2 { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.2px; }
+  .section-header .count-badge {
+    background: rgba(255,255,255,0.35);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .sh-usp  { background: #e8f5e9; border-left: 5px solid #2e7d32; color: #1b5e20; }
+  .sh-ops  { background: #fff3e0; border-left: 5px solid #e65100; color: #bf360c; }
+  .sh-pend { background: #f3e5f5; border-left: 5px solid #6a1b9a; color: #4a148c; }
+  .sh-new  { background: #e3f2fd; border-left: 5px solid #0277bd; color: #01579b; }
+  .sh-hold { background: #fce4ec; border-left: 5px solid #c62828; color: #b71c1c; }
+
+  /* ISSUE CARDS */
+  .issues-grid { display: flex; flex-direction: column; gap: 0; }
+  .issue-card {
+    background: #fff;
+    border-radius: 0;
+    padding: 14px 18px;
+    box-shadow: none;
+    border-left: 5px solid #ccc;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .issue-card:last-child { border-radius: 0 0 8px 8px; border-bottom: none; }
+  .ic-usp  { border-left-color: #2e7d32; }
+  .ic-ops  { border-left-color: #e65100; }
+  .ic-pend { border-left-color: #6a1b9a; }
+  .ic-new  { border-left-color: #0277bd; }
+
+  .issue-title { font-size: 0.95rem; font-weight: 700; color: #1a202c; }
+  .issue-meta {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    font-size: 0.75rem;
+  }
+  .meta-item { color: #718096; }
+  .meta-item strong { color: #4a5568; font-weight: 600; }
+
+  .status-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .sp-indev   { background: #e8f5e9; color: #2e7d32; }
+  .sp-intake  { background: #fff3e0; color: #e65100; }
+  .sp-pending { background: #f3e5f5; color: #6a1b9a; }
+  .sp-research{ background: #e3f2fd; color: #0277bd; }
+  .sp-new     { background: #e3f2fd; color: #0277bd; }
+  .sp-jira    { background: #e0f2f1; color: #00695c; }
+  .sp-hold    { background: #fce4ec; color: #c62828; }
+
+  .last-action {
+    font-size: 0.76rem;
+    color: #718096;
+    font-style: italic;
+    border-left: 3px solid #e2e8f0;
+    padding-left: 8px;
+    margin-top: 2px;
+  }
+
+  /* ACTIVITY TABLE */
+  .table-section { margin-bottom: 32px; }
+  .table-section h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  .act-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    font-size: 0.8rem;
+  }
+  .act-table th {
+    background: #1a237e;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    letter-spacing: 0.8px;
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .act-table td {
+    padding: 10px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid #f0f0f0;
+    color: #4a5568;
+  }
+  .act-table tr:nth-child(even) td { background: #f9fafb; }
+  .act-table tr:last-child td { border-bottom: none; }
+  .act-table td:first-child { font-weight: 600; color: #1a202c; }
+  .owner-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin: 1px 2px;
+  }
+  .op-usp  { background: #e8f5e9; color: #2e7d32; }
+  .op-sta  { background: #e3f2fd; color: #01579b; }
+  .op-wfm  { background: #fff3e0; color: #e65100; }
+  .op-ops  { background: #fce4ec; color: #c62828; }
+  .op-cxdi { background: #f3e5f5; color: #6a1b9a; }
+  .op-ld   { background: #e0f2f1; color: #00695c; }
+  .op-de   { background: #f1f8e9; color: #558b2f; }
+  .op-rte  { background: #f5f5f5; color: #616161; }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    font-size: 0.73rem;
+    color: #a0aec0;
+    margin-top: 36px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>CX Routing Issues Dashboard</h1>
+    <div class="date">Tuesday, August 4, 2026</div>
+    <div class="byline">Prepared by Hasen Abbas &nbsp;|&nbsp; CX Planning &amp; Insights</div>
+  </div>
+
+  <!-- SUMMARY CARDS -->
+  <div class="cards">
+    <div class="card total"><div class="num">13</div><div class="label">Total Active</div></div>
+    <div class="card usp">  <div class="num">5</div> <div class="label">USP</div></div>
+    <div class="card ops">  <div class="num">5</div> <div class="label">Operations</div></div>
+    <div class="card pend"> <div class="num">3</div> <div class="label">Pending</div></div>
+    <div class="card new">  <div class="num">0</div> <div class="label">New</div></div>
+  </div>
+
+  <!-- USP SECTION -->
+  <div class="section">
+    <div class="section-header sh-usp">
+      <h2>Actively Worked On by USP</h2>
+      <span class="count-badge">5 issues</span>
+    </div>
+    <div class="issues-grid">
+
+      <div class="issue-card ic-usp">
+        <div class="issue-title">Aged Cases Mitigation Bucket</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="status-pill sp-jira">Dev</span>
+          <span class="meta-item"><strong>Due:</strong> 08/28</span>
+          <span class="meta-item"><strong>Jira:</strong> USPRTE-1172, USPRTE-1017, USPRTE-1014, USPRTE-982</span>
+          <span class="meta-item"><strong>Owner:</strong> USP, Ops</span>
+        </div>
+        <div class="last-action">[2026-07-07]: Next Steps auto-set to "Track development progress and prepare for deployment"</div>
+      </div>
+
+      <div class="issue-card ic-usp">
+        <div class="issue-title">Auto-Flag Pending Customer Commits</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-intake">Intake Submitted</span>
+          <span class="meta-item"><strong>Due:</strong> 08/28</span>
+          <span class="meta-item"><strong>Jira:</strong> Pending</span>
+          <span class="meta-item"><strong>Owner:</strong> USP</span>
+        </div>
+        <div class="last-action">[2026-08-03]: Auto-populated fields from intake record — Intake #: N/A</div>
+      </div>
+
+      <div class="issue-card ic-usp">
+        <div class="issue-title">DSA Contact Viz Q-Tag (Chat)</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="meta-item"><strong>Due:</strong> 06/16</span>
+          <span class="meta-item"><strong>Jira:</strong> USPDS-641</span>
+          <span class="meta-item"><strong>Owner:</strong> USP</span>
+        </div>
+        <div class="last-action">[2026-07-07]: Next Steps auto-set to "Track development progress and prepare for deployment"</div>
+      </div>
+
+      <div class="issue-card ic-usp">
+        <div class="issue-title">Consumer Money SF Journey Alignment</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="meta-item"><strong>Due:</strong> Pending</span>
+          <span class="meta-item"><strong>Jira:</strong> Pending</span>
+          <span class="meta-item"><strong>Owner:</strong> USP</span>
+        </div>
+        <div class="last-action">[2026-07-24]: Next Steps auto-set to "Track development progress and prepare for deployment"</div>
+      </div>
+
+      <div class="issue-card ic-usp">
+        <div class="issue-title">Retirement Migration → Gusto CX</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="meta-item"><strong>Due:</strong> 08/07</span>
+          <span class="meta-item"><strong>Jira:</strong> USPRTE-1164</span>
+          <span class="meta-item"><strong>Owner:</strong> USP</span>
+        </div>
+        <div class="last-action">[2026-07-24]: Next Steps auto-set to "Track development progress and prepare for deployment"</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OPERATIONS SECTION -->
+  <div class="section">
+    <div class="section-header sh-ops">
+      <h2>Actively Worked On by Operations</h2>
+      <span class="count-badge">5 issues</span>
+    </div>
+    <div class="issues-grid">
+
+      <div class="issue-card ic-ops">
+        <div class="issue-title">T2 → T1 Case Restructuring</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="meta-item"><strong>Due:</strong> 09/30</span>
+          <span class="meta-item"><strong>Jira:</strong> USPRTE-985</span>
+          <span class="meta-item"><strong>Owner:</strong> L&amp;D, Ops, WFM, S&amp;TA</span>
+        </div>
+        <div class="last-action">[2026-07-07]: Next Steps auto-set to "Track development progress and prepare for deployment"</div>
+      </div>
+
+      <div class="issue-card ic-ops">
+        <div class="issue-title">Contacts with Unmapped WFM Q-Tags</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-research">Researching</span>
+          <span class="meta-item"><strong>Due:</strong> Pending</span>
+          <span class="meta-item"><strong>Jira:</strong> N/A</span>
+          <span class="meta-item"><strong>Owner:</strong> WFM</span>
+        </div>
+        <div class="last-action"><em>No actions taken yet</em></div>
+      </div>
+
+      <div class="issue-card ic-ops">
+        <div class="issue-title">Auto-Solve Automation Creating Phantom Transfers</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="meta-item"><strong>Due:</strong> Pending</span>
+          <span class="meta-item"><strong>Jira:</strong> N/A</span>
+          <span class="meta-item"><strong>Owner:</strong> CXDI</span>
+        </div>
+        <div class="last-action">[2026-07-24]: Next Steps auto-set to "Track development progress and prepare for deployment"</div>
+      </div>
+
+      <div class="issue-card ic-ops">
+        <div class="issue-title">GTM Q-Tag Creation</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="meta-item"><strong>Due:</strong> 07/31</span>
+          <span class="meta-item"><strong>Jira:</strong> Pending</span>
+          <span class="meta-item"><strong>Owner:</strong> S&amp;TA</span>
+        </div>
+        <div class="last-action">[2026-08-03]: Auto-populated fields from intake record — Intake #: N/A</div>
+      </div>
+
+      <div class="issue-card ic-ops">
+        <div class="issue-title">TRES Report Accuracy Initiative</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-indev">In Development</span>
+          <span class="meta-item"><strong>Due:</strong> 08/07</span>
+          <span class="meta-item"><strong>Jira:</strong> N/A</span>
+          <span class="meta-item"><strong>Owner:</strong> S&amp;TA</span>
+        </div>
+        <div class="last-action">[2026-07-24]: Next Steps auto-set to "Track development progress and prepare for deployment"</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PENDING SECTION -->
+  <div class="section">
+    <div class="section-header sh-pend">
+      <h2>Pending</h2>
+      <span class="count-badge">3 issues</span>
+    </div>
+    <div class="issues-grid">
+
+      <div class="issue-card ic-pend">
+        <div class="issue-title">SFDC / Tableau Filter Alignment</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-intake">Intake Submitted</span>
+          <span class="meta-item"><strong>Due:</strong> 08/07</span>
+          <span class="meta-item"><strong>Jira:</strong> Pending</span>
+          <span class="meta-item"><strong>Owner:</strong> S&amp;TA</span>
+        </div>
+        <div class="last-action">[2026-07-24]: Status auto-advanced to Intake Submitted</div>
+      </div>
+
+      <div class="issue-card ic-pend">
+        <div class="issue-title">Orphaned Engagement Cases (Omni)</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-pending">Pending Intake</span>
+          <span class="meta-item"><strong>Due:</strong> 08/21</span>
+          <span class="meta-item"><strong>Jira:</strong> N/A</span>
+          <span class="meta-item"><strong>Owner:</strong> S&amp;TA</span>
+        </div>
+        <div class="last-action">[2026-08-03]: Slack DM draft sent to Hasen for approval (Follow-up to Sirisha Kodi re: intake submission, 4 days since last draft)</div>
+      </div>
+
+      <div class="issue-card ic-pend">
+        <div class="issue-title">CT (970 + 811) Data Flow Migration</div>
+        <div class="issue-meta">
+          <span class="status-pill sp-intake">Intake Submitted</span>
+          <span class="meta-item"><strong>Due:</strong> Pending</span>
+          <span class="meta-item"><strong>Jira:</strong> Pending</span>
+          <span class="meta-item"><strong>Owner:</strong> Data Engineering</span>
+        </div>
+        <div class="last-action"><em>No actions taken yet</em></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ACTIVITY & NEXT STEPS TABLE -->
+  <div class="table-section">
+    <h2>Activity &amp; Next Steps</h2>
+    <table class="act-table">
+      <thead>
+        <tr>
+          <th style="width:28%">Issue</th>
+          <th style="width:32%">Last Action</th>
+          <th style="width:28%">Next Steps</th>
+          <th style="width:12%">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Aged Cases Mitigation Bucket</td>
+          <td>[2026-07-07]: Next Steps auto-set</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-usp">USP</span><span class="owner-pill op-ops">Ops</span></td>
+        </tr>
+        <tr>
+          <td>Auto-Flag Pending Customer Commits</td>
+          <td>[2026-08-03]: Auto-populated from intake — Intake #: N/A</td>
+          <td>Review intake and assign priority</td>
+          <td><span class="owner-pill op-usp">USP</span></td>
+        </tr>
+        <tr>
+          <td>DSA Contact Viz Q-Tag (Chat)</td>
+          <td>[2026-07-07]: Next Steps auto-set</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-usp">USP</span></td>
+        </tr>
+        <tr>
+          <td>Consumer Money SF Journey Alignment</td>
+          <td>[2026-07-24]: Next Steps auto-set</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-usp">USP</span></td>
+        </tr>
+        <tr>
+          <td>Retirement Migration → Gusto CX</td>
+          <td>[2026-07-24]: Next Steps auto-set</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-usp">USP</span></td>
+        </tr>
+        <tr>
+          <td>T2 → T1 Case Restructuring</td>
+          <td>[2026-07-07]: Next Steps auto-set</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-ld">L&amp;D</span><span class="owner-pill op-ops">Ops</span><span class="owner-pill op-wfm">WFM</span><span class="owner-pill op-sta">S&amp;TA</span></td>
+        </tr>
+        <tr>
+          <td>Contacts with Unmapped WFM Q-Tags</td>
+          <td><em>No actions yet</em></td>
+          <td>Investigate issue and gather initial details</td>
+          <td><span class="owner-pill op-wfm">WFM</span></td>
+        </tr>
+        <tr>
+          <td>Auto-Solve Automation — Phantom Transfers</td>
+          <td>[2026-07-24]: Next Steps auto-set</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-cxdi">CXDI</span></td>
+        </tr>
+        <tr>
+          <td>GTM Q-Tag Creation</td>
+          <td>[2026-08-03]: Auto-populated from intake — Intake #: N/A</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-sta">S&amp;TA</span></td>
+        </tr>
+        <tr>
+          <td>TRES Report Accuracy Initiative</td>
+          <td>[2026-07-24]: Next Steps auto-set</td>
+          <td>Track development progress and prepare for deployment</td>
+          <td><span class="owner-pill op-sta">S&amp;TA</span></td>
+        </tr>
+        <tr>
+          <td>SFDC / Tableau Filter Alignment</td>
+          <td>[2026-07-24]: Status auto-advanced to Intake Submitted</td>
+          <td>Review intake and assign priority</td>
+          <td><span class="owner-pill op-sta">S&amp;TA</span></td>
+        </tr>
+        <tr>
+          <td>Orphaned Engagement Cases (Omni)</td>
+          <td>[2026-08-03]: Slack DM draft sent to Hasen (follow-up to Sirisha Kodi)</td>
+          <td>Follow up with submitter for intake submission</td>
+          <td><span class="owner-pill op-sta">S&amp;TA</span></td>
+        </tr>
+        <tr>
+          <td>CT (970 + 811) Data Flow Migration</td>
+          <td><em>No actions yet</em></td>
+          <td>Investigate issue and gather initial details</td>
+          <td><span class="owner-pill op-de">Data Eng</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Auto-generated by CX Routing Tracker &nbsp;|&nbsp; August 4, 2026 &nbsp;|&nbsp; For CX Leadership Review
+  </div>
+
+</div>
+</body>
+</html>
